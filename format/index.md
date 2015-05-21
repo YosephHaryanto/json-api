@@ -612,6 +612,9 @@ GET /articles/1/author
 
 #### Responses <a href="#fetching-resources-responses" id="fetching-resources-responses" class="headerlink"></a>
 
+A server **MUST** respond to a request to fetch resource data according to
+[`HTTP semantics`](http://tools.ietf.org/html/rfc7231).
+
 ##### 200 OK <a href="#fetching-resources-responses-200" id="fetching-resources-responses-200" class="headerlink"></a>
 
 A server **MUST** respond to a successful request to fetch an individual
@@ -745,6 +748,9 @@ GET /articles/1/relationships/author
 ```
 
 #### Responses <a href="#fetching-relationships-responses" id="fetching-relationships-responses" class="headerlink"></a>
+
+A server **MUST** respond to a request to fetch relationship data according to
+[`HTTP semantics`](http://tools.ietf.org/html/rfc7231).
 
 ##### 200 OK <a href="#fetching-relationships-responses-200" id="fetching-relationships-responses-200" class="headerlink"></a>
 
@@ -1104,17 +1110,17 @@ to create a resource with a client-generated ID.
 
 #### Responses <a href="#crud-creating-responses" id="crud-creating-responses" class="headerlink"></a>
 
+A server **MUST** respond to a resource creation request according to
+[`HTTP semantics`](http://tools.ietf.org/html/rfc7231).
+
 ##### 201 Created <a href="#crud-creating-responses-201" id="crud-creating-responses-201" class="headerlink"></a>
 
-A server **MUST** respond to a successful resource creation request according to
-[`HTTP semantics`](http://tools.ietf.org/html/rfc7231#section-6.3).
+If a `POST` request did not include a [Client-Generated
+ID](#crud-creating-client-ids) and the requested resource has been created
+successfully, the server **MUST** return a `201 Created` status code.
 
 The response **SHOULD** include a `Location` header identifying the location
 of the newly created resource.
-
-If a `POST` request did not include a [Client-Generated
-ID](#crud-creating-client-ids), and a resource has been created, the server
-**MUST** return a `201 Created` status code.
 
 The response **MUST** also include a document that contains the primary
 resource created.
@@ -1143,12 +1149,19 @@ Content-Type: application/vnd.api+json
 }
 ```
 
+##### 202 Accepted <a href="#crud-creating-responses-202" id="crud-creating-responses-202" class="headerlink"></a>
+
+If a request to create a resource has been accepted for processing, but the
+processing has not been completed by the time the server responds, the
+server **MUST** return a `202 Accepted` status code.
+
 ##### 204 No Content <a href="#crud-creating-responses-204" id="crud-creating-responses-204" class="headerlink"></a>
 
 If a `POST` request *did* include a [Client-Generated
-ID](#crud-creating-client-ids), the server **MUST** return either a `201
-Created` status code and response document (as described above) or a `204 No
-Content` status code with no response document.
+ID](#crud-creating-client-ids) and the requested resource has been created
+successfully, the server **MUST** return either a `201 Created` status code
+and response document (as described above) or a `204 No Content` status code
+with no response document.
 
 > Note: If a `204` response is received the client should consider the resource
 object sent in the request to be accepted by the server, as if the server
@@ -1303,6 +1316,15 @@ it has not provided the client with the full list of associated objects, and
 does not want to allow deletion of records the client has not seen.
 
 #### Responses <a href="#crud-updating-responses" id="crud-updating-responses" class="headerlink"></a>
+
+A server **MUST** respond to a resource update request according to
+[`HTTP semantics`](http://tools.ietf.org/html/rfc7231).
+
+##### 202 Accepted <a href="#crud-updating-responses-202" id="crud-updating-responses-202" class="headerlink"></a>
+
+If an update request has been accepted for processing, but the processing
+has not been completed by the time the server responds, the server **MUST**
+return a `202 Accepted` status code.
 
 ##### 204 No Content <a href="#crud-updating-responses-204" id="crud-updating-responses-204" class="headerlink"></a>
 
@@ -1515,6 +1537,15 @@ server, and we are defining its semantics for JSON API.
 
 #### Responses <a href="#crud-updating-relationship-responses" id="crud-updating-relationship-responses" class="headerlink"></a>
 
+A server **MUST** respond to a relationship update request according to
+[`HTTP semantics`](http://tools.ietf.org/html/rfc7231).
+
+##### 202 Accepted <a href="#crud-updating-relationship-responses-202" id="crud-updating-relationship-responses-202" class="headerlink"></a>
+
+If a relationship update request has been accepted for processing, but the
+processing has not been completed by the time the server responds, the
+server **MUST** return a `202 Accepted` status code.
+
 ##### 204 No Content <a href="#crud-updating-relationship-responses-204" id="crud-updating-relationship-responses-204" class="headerlink"></a>
 
 A server **MUST** return a `204 No Content` status code if an update is
@@ -1547,10 +1578,19 @@ DELETE /photos/1
 
 #### Responses <a href="#crud-deleting-responses" id="crud-deleting-responses" class="headerlink"></a>
 
+A server **MUST** respond to a deletion request according to
+[`HTTP semantics`](http://tools.ietf.org/html/rfc7231).
+
+##### 202 Accepted <a href="#crud-deleting-responses-202" id="crud-deleting-responses-202" class="headerlink"></a>
+
+If a deletion request has been accepted for processing, but the processing has
+not been completed by the time the server responds, the server **MUST**
+return a `202 Accepted` status code.
+
 ##### 204 No Content <a href="#crud-deleting-responses-204" id="crud-deleting-responses-204" class="headerlink"></a>
 
-A server **MUST** return a `204 No Content` status code if a delete request is
-successful.
+A server **MUST** return a `204 No Content` status code if a deletion
+request is successful.
 
 ##### Other Responses <a href="#crud-deleting-responses-other" id="crud-deleting-responses-other" class="headerlink"></a>
 
